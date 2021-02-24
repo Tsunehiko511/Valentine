@@ -13,4 +13,9 @@ public abstract class LuaInterpreterHandlerBase : MonoBehaviour
     {
         yield return new WaitUntil(() => flag);
     }
+
+    public void NormalSpeedPoint()
+    {
+        ParamSO.Instance.RuntimeSpeedMode = false;
+    }
 }
