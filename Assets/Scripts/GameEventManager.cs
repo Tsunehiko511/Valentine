@@ -14,7 +14,7 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] GameObject titlePanel = default;
     [SerializeField] SoundManager sound = default;
     [SerializeField] MoveEvent chocolate = default;
-
+    [SerializeField] GameObject[] lines = default;
     bool pushStart;
     // デバッグモードを作る
     // 特定の１から開始できるようにする
@@ -24,6 +24,8 @@ public class GameEventManager : MonoBehaviour
         pushStart = false;
         titlePanel.SetActive(true);
         sound.PlayBGM(SoundManager.BGM.Title);
+        lines[0].SetActive(true);
+        lines[1].SetActive(true);
     }
 
     private void Update()
@@ -31,7 +33,8 @@ public class GameEventManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && pushStart == false)
         {
             pushStart = true;
-            titlePanel.SetActive(false);
+            titlePanel.GetComponent<Animator>().Play("FadeTitleAnimation");
+            // titlePanel.SetActive(false);
             sound.StopBGM();
             // StartCoroutine(GameEvent());
             StartCoroutine(ExecuteEvent(textAsset.text));
