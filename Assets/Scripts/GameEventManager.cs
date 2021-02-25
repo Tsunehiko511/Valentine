@@ -11,13 +11,29 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] new MoveEvent camera = default;
     [SerializeField] FadePanel fadePanel = default;
     [SerializeField] Player oldPlayer = default;
+    [SerializeField] GameObject titlePanel = default;
+    [SerializeField] SoundManager sound = default;
 
+    bool pushStart;
     // デバッグモードを作る
     // 特定の１から開始できるようにする
     // 待機じかんが0
     private void Start()
     {
-        StartCoroutine(ExecuteEvent(textAsset.text));
+        pushStart = false;
+        titlePanel.SetActive(true);
+        sound.PlayBGM(SoundManager.BGM.Title);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && pushStart == false)
+        {
+            pushStart = true;
+            titlePanel.SetActive(false);
+            sound.StopBGM();
+            StartCoroutine(ExecuteEvent(textAsset.text));
+        }
     }
 
     IEnumerator ExecuteEvent(string script)
@@ -30,6 +46,8 @@ public class GameEventManager : MonoBehaviour
         interpreter.AddHandler("camera", camera); // メッセージ制御のハンドラを登録
         interpreter.AddHandler("fadePanel", fadePanel); // メッセージ制御のハンドラを登録
         interpreter.AddHandler("oldPlayer", oldPlayer); // メッセージ制御のハンドラを登録
+        interpreter.AddHandler("sound", sound); // メッセージ制御のハンドラを登録
+        yield return new WaitForSeconds(2);
         while (interpreter.HasNextScript())
         {
             interpreter.Resume();

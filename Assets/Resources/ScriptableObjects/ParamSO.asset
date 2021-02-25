@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5f60c8bfd904abb9fe93c5878076aa, type: 3}
   m_Name: ParamSO
   m_EditorClassIdentifier: 
-  speedMode: 1
-  messageSpeed: 0.05
-  moveSpeed: 0.3
-  waitTime: 0.2
+  speedMode: 0
+  messageSpeed: 0.03
+  moveSpeed: 0.1
+  waitTime: 0.01

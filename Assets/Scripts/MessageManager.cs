@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MessageManager : LuaInterpreterHandlerBase
 {
     [SerializeField] Text messageText = default;
-    [SerializeField] float speed = default;
+    [SerializeField] SoundManager sound = default;
 
     public void ShowMessage(string message)
     {
@@ -17,10 +17,16 @@ public class MessageManager : LuaInterpreterHandlerBase
     {
         flag = false;
         messageText.text = "";
+        int count = 0;
         foreach (char c in message)
         {
             yield return new WaitForSeconds(ParamSO.Instance.RuntimeMessageSpeed);
             messageText.text += c;
+            count++;
+            if (count%2==1)
+            {
+                sound.PlaySE(SoundManager.SE.Message);
+            }
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || ParamSO.Instance.RuntimeSpeedMode);
         flag = true;
