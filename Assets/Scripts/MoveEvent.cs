@@ -45,7 +45,10 @@ public class MoveEvent : LuaInterpreterHandlerBase
         Vector3 position = GetDirection(direction) * count;
         transform.Translate(position);
     }
-
+    public void JumpToPosition(int x, int y)
+    {
+        transform.position = new Vector3(x,y);
+    }
     public void Show(bool isActive)
     {
         model.SetActive(isActive);

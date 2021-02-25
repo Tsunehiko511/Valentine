@@ -14,6 +14,21 @@ public abstract class LuaInterpreterHandlerBase : MonoBehaviour
         yield return new WaitUntil(() => flag);
     }
 
+    public void Wait(float duration)
+    {
+        StartCoroutine(WaitCor(duration));
+    }
+    IEnumerator WaitCor(float duration)
+    {
+        flag = false;
+        if (ParamSO.Instance.RuntimeSpeedMode)
+        {
+            duration = 0;
+        }
+        yield return new WaitForSeconds(duration);
+        flag = true;
+    }
+
     public void NormalSpeedPoint()
     {
         ParamSO.Instance.RuntimeSpeedMode = false;

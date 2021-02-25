@@ -25,13 +25,8 @@ public class MessageManager : LuaInterpreterHandlerBase
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || ParamSO.Instance.RuntimeSpeedMode);
         flag = true;
     }
-    /*
-         npcBoy.Show(true)
-    coroutine.yield()
-    npcBoy.MoveTo("down", 4)
-    coroutine.yield()
-    npcBoy.MoveTo("left", 2)
-    coroutine.yield()
-
-     */
+    public void ClearMessage()
+    {
+        messageText.text = "";
+    }
 }
