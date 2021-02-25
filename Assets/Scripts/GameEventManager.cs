@@ -13,6 +13,7 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] Player oldPlayer = default;
     [SerializeField] GameObject titlePanel = default;
     [SerializeField] SoundManager sound = default;
+    [SerializeField] MoveEvent chocolate = default;
 
     bool pushStart;
     // デバッグモードを作る
@@ -32,6 +33,7 @@ public class GameEventManager : MonoBehaviour
             pushStart = true;
             titlePanel.SetActive(false);
             sound.StopBGM();
+            // StartCoroutine(GameEvent());
             StartCoroutine(ExecuteEvent(textAsset.text));
         }
     }
@@ -39,14 +41,15 @@ public class GameEventManager : MonoBehaviour
     IEnumerator ExecuteEvent(string script)
     {
         var interpreter = new LuaInterpreter(script); // スクリプトを渡して初期化
-        interpreter.AddHandler("player", player); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("npcGirl", npcGirl); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("npcBoy", npcBoy); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("message", messagePanel); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("camera", camera); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("fadePanel", fadePanel); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("oldPlayer", oldPlayer); // メッセージ制御のハンドラを登録
-        interpreter.AddHandler("sound", sound); // メッセージ制御のハンドラを登録
+        interpreter.AddHandler("player", player);
+        interpreter.AddHandler("npcGirl", npcGirl);
+        interpreter.AddHandler("npcBoy", npcBoy);
+        interpreter.AddHandler("message", messagePanel);
+        interpreter.AddHandler("camera", camera);
+        interpreter.AddHandler("fadePanel", fadePanel);
+        interpreter.AddHandler("oldPlayer", oldPlayer);
+        interpreter.AddHandler("sound", sound);
+        interpreter.AddHandler("chocolate", chocolate);
         yield return new WaitForSeconds(2);
         while (interpreter.HasNextScript())
         {
@@ -54,6 +57,4 @@ public class GameEventManager : MonoBehaviour
             yield return interpreter.WaitCoroutine();
         }
     }
-
-
 }

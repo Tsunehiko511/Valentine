@@ -6,6 +6,12 @@ using UnityEngine;
 public class MoveEvent : LuaInterpreterHandlerBase
 {
     [SerializeField] GameObject model = default;
+    [SerializeField] Sprite spriteFront = default;
+    [SerializeField] Sprite spriteRight = default;
+    [SerializeField] Sprite spriteLeft = default;
+    [SerializeField] Sprite spriteBack = default;
+
+
     Vector3 GetDirection(string direction)
     {
         switch (direction)
@@ -24,8 +30,12 @@ public class MoveEvent : LuaInterpreterHandlerBase
     }
 
 
-    public void MoveTo(string direction, int count)
+    public void MoveTo(string direction, int count, bool look = true)
     {
+        if (look)
+        {
+            Look(direction);
+        }
         StartCoroutine(MoveCorou(GetDirection(direction), count));
     }
 
@@ -45,12 +55,43 @@ public class MoveEvent : LuaInterpreterHandlerBase
         Vector3 position = GetDirection(direction) * count;
         transform.Translate(position);
     }
-    public void JumpToPosition(int x, int y)
+    public void JumpToPosition(int x, int y, bool isFloat = false)
     {
-        transform.position = new Vector3(x,y);
+        if (isFloat)
+        {
+            float newX = x / 10.0f;
+            float newY = y / 10.0f;
+            transform.position = new Vector3(newX, newY);
+            return;
+        }
+        transform.position = new Vector3(x, y);
     }
     public void Show(bool isActive)
     {
         model.SetActive(isActive);
+    }
+
+    public void Look(string direction)
+    {
+        if (spriteRight == null)
+        {
+            return;
+        }
+        SpriteRenderer renderer = model.GetComponent<SpriteRenderer>();
+        switch (direction)
+        {
+            case "right":
+                renderer.sprite = spriteRight;
+                break;
+            case "left":
+                renderer.sprite = spriteLeft;
+                break;
+            case "down":
+                renderer.sprite = spriteFront;
+                break;
+            case "up":
+                renderer.sprite = spriteBack;
+                break;
+        }
     }
 }
