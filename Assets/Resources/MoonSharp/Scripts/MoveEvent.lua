@@ -20,6 +20,9 @@
     coroutine.yield()
     player.MoveTo("down", 3)
     coroutine.yield()
+    npcBoy.NormalSpeedPoint()
+    coroutine.yield()
+
     sound.StopBGM()
     fadePanel.PlayFadeOut()
     coroutine.yield()
@@ -458,8 +461,6 @@
     fadePanel.PlayFadeOut()
     coroutine.yield()
     message.Wait(2)
-    coroutine.yield()
-    npcBoy.NormalSpeedPoint()
     coroutine.yield()
     message.ShowMessage("おしまい")
     coroutine.yield()

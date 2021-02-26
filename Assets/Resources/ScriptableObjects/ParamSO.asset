@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMode: 0
   messageSpeed: 0.03
-  moveSpeed: 0.1
+  moveSpeed: 0.2
   waitTime: 0.01
