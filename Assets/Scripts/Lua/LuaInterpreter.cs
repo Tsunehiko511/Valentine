@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MoonSharp.Interpreter;
-using UnityEngine;
 
 public class LuaInterpreter
 {
@@ -12,7 +11,6 @@ public class LuaInterpreter
     public LuaInterpreter(string script)
     {
         _interpreter = new Script();
-        UserData.RegisterAssembly();
         _interpreter.DoString(script);
     }
 

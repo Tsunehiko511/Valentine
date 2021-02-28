@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using MoonSharp.Interpreter;
 using UnityEngine;
 
 public class GameEventManager : MonoBehaviour
@@ -7,20 +8,27 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] MoveEvent npcGirl = default;
     [SerializeField] MoveEvent npcBoy = default;
     [SerializeField] MessageManager messagePanel = default;
-    [SerializeField] TextAsset textAsset = default;
-    [SerializeField] new MoveEvent camera = default;
+    [SerializeField] MoveEvent chocolate = default;
     [SerializeField] FadePanel fadePanel = default;
     [SerializeField] Player oldPlayer = default;
-    [SerializeField] GameObject titlePanel = default;
+    [SerializeField] new MoveEvent camera = default;
     [SerializeField] SoundManager sound = default;
-    [SerializeField] MoveEvent chocolate = default;
+
+    [SerializeField] TextAsset textAsset = default;
+    [SerializeField] GameObject titlePanel = default;
     [SerializeField] GameObject[] lines = default;
     bool pushStart;
-    // デバッグモードを作る
-    // 特定の１から開始できるようにする
-    // 待機じかんが0
+
     private void Start()
     {
+        // Luaで使うクラスは登録する必要がある
+        UserData.RegisterAssembly(typeof(Player).Assembly);
+        UserData.RegisterAssembly(typeof(MoveEvent).Assembly);
+        UserData.RegisterAssembly(typeof(FadePanel).Assembly);
+        UserData.RegisterAssembly(typeof(MessageManager).Assembly);
+        UserData.RegisterAssembly(typeof(SoundManager).Assembly);
+
+
         pushStart = false;
         titlePanel.SetActive(true);
         sound.PlayBGM(SoundManager.BGM.Title);
