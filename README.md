@@ -5,6 +5,7 @@
 ・ゲームではないです  
 ・ストーリーを楽しむためのもの  
 ・Fungusなどを使わずにゲームイベントの作成をしました  
+・webGLでプレイ：https://unityroom.com/games/shimazusai_18th
 
 # バージョン
 ・Unity2019.4.19f  
