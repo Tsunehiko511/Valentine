@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 public abstract class LuaInterpreterHandlerBase : MonoBehaviour
 {
     protected bool flag;
+    public int? result = null;
 
     private void Awake()
     {
         flag = true;
     }
+
+
+
     public IEnumerator WaitCoroutine()
     {
         yield return new WaitUntil(() => flag);

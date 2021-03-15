@@ -8,12 +8,22 @@
     coroutine.yield()
     player.Look("down")
     chocolate.Show(true)
-    chocolate.JumpToPosition(-6, 0, true)
+    result = chocolate.JumpToPosition(-6, 0, true)
     message.ShowMessage("勇者「やったー！やったー！\n　　村人Jちゃんからチョコをもらった！")
     coroutine.yield()
     message.ShowMessage("勇者「ぼくはリア充だ！やったー！")
+    select.Choose("ここで食べる", "後で食べる", "悩む", "なーむー")
+    userInput = coroutine.yield(result)
+    if userInput == 0 then
+        message.ShowMessage("勇者「どんなチョコかな！\n　　すぐに食べちゃお！")
+    elseif userInput == 1 then
+        message.ShowMessage("勇者「やべ！こんな時間だ！\n　　スライム討伐のバイトがあったんだ！\n　　チョコは後で食べよう！")
+    elseif userInput == 2 then
+        message.ShowMessage("勇者「うーむ...")
+    elseif userInput == 3 then
+        message.ShowMessage("勇者「なーむーーーー")
+    end
     coroutine.yield()
-    message.ShowMessage("勇者「やべ！こんな時間だ！\n　　スライム討伐のバイトがあったんだ！\n　　チョコは後で食べよう！")
     chocolate.JumpToPosition(0, 14, true)
     coroutine.yield()
     message.ShowMessage("勇者「いそげ！いそげーーー！")

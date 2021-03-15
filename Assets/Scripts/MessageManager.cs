@@ -28,7 +28,16 @@ public class MessageManager : LuaInterpreterHandlerBase
                 sound.PlaySE(SoundManager.SE.Message);
             }
         }
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || ParamSO.Instance.RuntimeSpeedMode);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space) || ParamSO.Instance.RuntimeSpeedMode);
+        // 選択によって結果を変えられる
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            result = 11;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            result = 22;
+        }
         flag = true;
     }
     public void ClearMessage()

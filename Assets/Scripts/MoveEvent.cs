@@ -55,16 +55,17 @@ public class MoveEvent : LuaInterpreterHandlerBase
         Vector3 position = GetDirection(direction) * count;
         transform.Translate(position);
     }
-    public void JumpToPosition(int x, int y, bool isFloat = false)
+    public int JumpToPosition(int x, int y, bool isFloat = false)
     {
         if (isFloat)
         {
             float newX = x / 10.0f;
             float newY = y / 10.0f;
             transform.position = new Vector3(newX, newY);
-            return;
+            return 10;
         }
         transform.position = new Vector3(x, y);
+        return 11;
     }
     public void Show(bool isActive)
     {

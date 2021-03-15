@@ -13,6 +13,7 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] Player oldPlayer = default;
     [SerializeField] new MoveEvent camera = default;
     [SerializeField] SoundManager sound = default;
+    [SerializeField] SelectionEvent select = default;
 
     [SerializeField] TextAsset textAsset = default;
     [SerializeField] GameObject titlePanel = default;
@@ -27,6 +28,7 @@ public class GameEventManager : MonoBehaviour
         UserData.RegisterAssembly(typeof(FadePanel).Assembly);
         UserData.RegisterAssembly(typeof(MessageManager).Assembly);
         UserData.RegisterAssembly(typeof(SoundManager).Assembly);
+        UserData.RegisterAssembly(typeof(SelectionEvent).Assembly);
 
 
         pushStart = false;
@@ -61,11 +63,22 @@ public class GameEventManager : MonoBehaviour
         interpreter.AddHandler("oldPlayer", oldPlayer);
         interpreter.AddHandler("sound", sound);
         interpreter.AddHandler("chocolate", chocolate);
+        interpreter.AddHandler("select", select);
         yield return new WaitForSeconds(2);
+        
+        int? result = null;
         while (interpreter.HasNextScript())
         {
-            interpreter.Resume();
+            interpreter.Resume(result);
             yield return interpreter.WaitCoroutine();
+            if (interpreter.resultValue != null)
+            {
+                result = interpreter.resultValue.Value;
+            }
+            else
+            {
+                result = null;
+            }
         }
     }
 }
