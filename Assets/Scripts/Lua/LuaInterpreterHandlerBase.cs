@@ -7,12 +7,10 @@ public abstract class LuaInterpreterHandlerBase : MonoBehaviour
     protected bool flag;
     public int? result = null;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         flag = true;
     }
-
-
 
     public IEnumerator WaitCoroutine()
     {

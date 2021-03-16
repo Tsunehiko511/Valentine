@@ -16,10 +16,9 @@ public class FadePanel : LuaInterpreterHandlerBase
     {
         StartCoroutine(PlayAnim("FadeOutAnimation"));        
     }
-    public int PlayFadeIn()
+    public void PlayFadeIn()
     {
         StartCoroutine(PlayAnim("FadeInAnimation"));
-        return 10;
     }
 
     IEnumerator PlayAnim(string animName)

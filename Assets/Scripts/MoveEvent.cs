@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using System.Collections;
 using MoonSharp.Interpreter;
 using UnityEngine;
 
@@ -11,24 +12,22 @@ public class MoveEvent : LuaInterpreterHandlerBase
     [SerializeField] Sprite spriteLeft = default;
     [SerializeField] Sprite spriteBack = default;
 
-
-    Vector3 GetDirection(string direction)
+    const float speed = 3f;
+    Dictionary<string, Vector3> getDirection = new Dictionary<string, Vector3>()
     {
-        switch (direction)
-        {
-            default:
-                return Vector3.zero;
-            case "left":
-                return Vector3.left;
-            case "right":
-                return Vector3.right;
-            case "up":
-                return Vector3.up;
-            case "down":
-                return Vector3.down;
-        }
-    }
+        {"left", Vector3.left },
+        {"right", Vector3.right },
+        {"up", Vector3.up },
+        {"down", Vector3.down },
+    };
 
+    Animator animator;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        animator = GetComponent<Animator>();
+    }
 
     public void MoveTo(string direction, int count, bool look = true)
     {
@@ -36,23 +35,25 @@ public class MoveEvent : LuaInterpreterHandlerBase
         {
             Look(direction);
         }
-        StartCoroutine(MoveCorou(GetDirection(direction), count));
+        StartCoroutine(MoveCorou(getDirection[direction], count));
     }
 
     IEnumerator MoveCorou(Vector3 direction, int count)
     {
         flag = false;
-        for (int i = 0; i < count; i++)
+
+        Vector3 target = transform.position + direction * count;
+        while (Vector2.Distance(transform.position, target) > float.Epsilon)
         {
-            yield return new WaitForSeconds(ParamSO.Instance.RuntimeMoveSpeed);
-            transform.Translate(direction);
+            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            yield return null;
         }
         yield return new WaitForSeconds(ParamSO.Instance.RuntimeWaitTime);
         flag = true;
     }
     public void JumpTo(string direction, int count)
     {
-        Vector3 position = GetDirection(direction) * count;
+        Vector3 position = getDirection[direction] * count;
         transform.Translate(position);
     }
     public int JumpToPosition(int x, int y, bool isFloat = false)
@@ -72,8 +73,14 @@ public class MoveEvent : LuaInterpreterHandlerBase
         model.SetActive(isActive);
     }
 
+    public void StopAnim()
+    {
+        animator.enabled = false;
+    }
+
     public void Look(string direction)
     {
+
         if (spriteRight == null)
         {
             return;
@@ -94,5 +101,30 @@ public class MoveEvent : LuaInterpreterHandlerBase
                 renderer.sprite = spriteBack;
                 break;
         }
+        LookAnim(direction);
     }
+    void LookAnim(string direction)
+    {
+        if (animator == null)
+        {
+            return;
+        }
+        animator.enabled = true;
+        switch (direction)
+        {
+            case "right":
+                animator.Play("PlayerRight");
+                break;
+            case "left":
+                animator.Play("PlayerLeft");
+                break;
+            case "down":
+                animator.Play("PlayerDown");
+                break;
+            case "up":
+                animator.Play("PlayerUp");
+                break;
+        }
+    }
+
 }
