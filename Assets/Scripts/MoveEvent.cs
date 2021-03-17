@@ -11,8 +11,10 @@ public class MoveEvent : LuaInterpreterHandlerBase
     [SerializeField] Sprite spriteRight = default;
     [SerializeField] Sprite spriteLeft = default;
     [SerializeField] Sprite spriteBack = default;
+    [SerializeField]
+    private Texture2D texture = null;
 
-    const float speed = 3f;
+    const float speed = 3.5f;
     Dictionary<string, Vector3> getDirection = new Dictionary<string, Vector3>()
     {
         {"left", Vector3.left },
@@ -27,6 +29,7 @@ public class MoveEvent : LuaInterpreterHandlerBase
     {
         base.Awake();
         animator = GetComponent<Animator>();
+
     }
 
     public void MoveTo(string direction, int count, bool look = true)
@@ -49,6 +52,7 @@ public class MoveEvent : LuaInterpreterHandlerBase
             yield return null;
         }
         yield return new WaitForSeconds(ParamSO.Instance.RuntimeWaitTime);
+        StopAnim();
         flag = true;
     }
     public void JumpTo(string direction, int count)
@@ -86,6 +90,7 @@ public class MoveEvent : LuaInterpreterHandlerBase
             return;
         }
         SpriteRenderer renderer = model.GetComponent<SpriteRenderer>();
+
         switch (direction)
         {
             case "right":
